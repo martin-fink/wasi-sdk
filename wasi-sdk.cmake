@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.4.0)
 
 set(CMAKE_SYSTEM_NAME WASI)
 set(CMAKE_SYSTEM_VERSION 1)
-set(CMAKE_SYSTEM_PROCESSOR wasm32)
-set(triple wasm32-wasi)
+set(CMAKE_SYSTEM_PROCESSOR wasm64)
+set(triple wasm64-wasi)
 
 if(WIN32)
 	set(WASI_HOST_EXE_SUFFIX ".exe")

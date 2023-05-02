@@ -47,5 +47,5 @@ tar czf $OUTDIR/wasi-sdk-$VERSION\-$MACHINE.tar.gz wasi-sdk-$VERSION
 # As well as the full SDK package, also create archives of libclang_rt.builtins
 # and the sysroot. These are made available for users who have an existing clang
 # installation.
-tar czf $OUTDIR/libclang_rt.builtins-wasm32-wasi-$VERSION.tar.gz -C compiler-rt lib/wasi
+tar czf $OUTDIR/libclang_rt.builtins-wasm64-wasi-$VERSION.tar.gz -C compiler-rt lib/wasi
 tar czf $OUTDIR/wasi-sysroot-$VERSION.tar.gz -C wasi-sdk-$VERSION/share wasi-sysroot

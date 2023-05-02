@@ -8,8 +8,8 @@ list(APPEND CMAKE_MODULE_PATH /usr/share/cmake/Modules)
 
 set(CMAKE_SYSTEM_NAME WASI)
 set(CMAKE_SYSTEM_VERSION 1)
-set(CMAKE_SYSTEM_PROCESSOR wasm32)
-set(triple wasm32-wasi)
+set(CMAKE_SYSTEM_PROCESSOR wasm64)
+set(triple wasm64-wasi)
 
 set(CMAKE_C_COMPILER /usr/bin/clang-$ENV{LLVM_VERSION})
 set(CMAKE_CXX_COMPILER /usr/bin/clang++-$ENV{LLVM_VERSION})

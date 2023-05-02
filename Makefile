@@ -66,7 +66,7 @@ build/llvm.BUILT:
 		-DCMAKE_OSX_DEPLOYMENT_TARGET=10.12 \
 		-DCMAKE_INSTALL_PREFIX=$(PREFIX) \
 		-DLLVM_TARGETS_TO_BUILD=WebAssembly \
-		-DLLVM_DEFAULT_TARGET_TRIPLE=wasm32-wasi \
+		-DLLVM_DEFAULT_TARGET_TRIPLE=wasm64-wasi \
 		-DLLVM_ENABLE_PROJECTS="lld;clang;clang-tools-extra" \
 		$(if $(patsubst 9,,$(CLANG_VERSION)), \
 	             $(if $(patsubst 10,,$(CLANG_VERSION)), \
@@ -189,8 +189,8 @@ build/libcxx.BUILT: build/llvm.BUILT build/compiler-rt.BUILT build/wasi-libc.BUI
 		-DCMAKE_SYSROOT=$(BUILD_PREFIX)/share/wasi-sysroot \
 		-DCMAKE_C_FLAGS="$(DEBUG_PREFIX_MAP) $(EXTRA_CFLAGS)" \
 		-DCMAKE_CXX_FLAGS="$(DEBUG_PREFIX_MAP) $(EXTRA_CXXFLAGS)" \
-		-DLIBCXX_LIBDIR_SUFFIX=$(ESCAPE_SLASH)/wasm32-wasi \
-		-DLIBCXXABI_LIBDIR_SUFFIX=$(ESCAPE_SLASH)/wasm32-wasi \
+		-DLIBCXX_LIBDIR_SUFFIX=$(ESCAPE_SLASH)/wasm64-wasi \
+		-DLIBCXXABI_LIBDIR_SUFFIX=$(ESCAPE_SLASH)/wasm64-wasi \
 		-DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
 		$(LLVM_PROJ_DIR)/runtimes
 	ninja $(NINJA_FLAGS) -C build/libcxx
@@ -199,8 +199,8 @@ build/libcxx.BUILT: build/llvm.BUILT build/compiler-rt.BUILT build/wasi-libc.BUI
 		-DCMAKE_SYSROOT=$(BUILD_PREFIX)/share/wasi-sysroot \
 		-DCMAKE_C_FLAGS="$(DEBUG_PREFIX_MAP) -pthread $(EXTRA_CFLAGS)" \
 		-DCMAKE_CXX_FLAGS="$(DEBUG_PREFIX_MAP) -pthread $(EXTRA_CXXFLAGS)" \
-		-DLIBCXX_LIBDIR_SUFFIX=$(ESCAPE_SLASH)/wasm32-wasi-threads \
-		-DLIBCXXABI_LIBDIR_SUFFIX=$(ESCAPE_SLASH)/wasm32-wasi-threads \
+		-DLIBCXX_LIBDIR_SUFFIX=$(ESCAPE_SLASH)/wasm64-wasi-threads \
+		-DLIBCXXABI_LIBDIR_SUFFIX=$(ESCAPE_SLASH)/wasm64-wasi-threads \
 		-DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
 		$(LLVM_PROJ_DIR)/runtimes
 	ninja $(NINJA_FLAGS) -C build/libcxx-threads

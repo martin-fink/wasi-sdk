@@ -9,7 +9,7 @@
 FROM ubuntu:22.04 as dist
 
 ADD dist/wasi-sdk-*.*-linux.tar.gz /
-ADD dist/libclang_rt.builtins-wasm32-wasi-*.*.tar.gz /wasi-sysroot-clang_rt
+ADD dist/libclang_rt.builtins-wasm64-wasi-*.*.tar.gz /wasi-sysroot-clang_rt
 
 # Move versioned folder to unversioned to using bash glob to allow
 # this file to be independent of major version number.
@@ -46,6 +46,6 @@ ENV LD wasm-ld-${LLVM_VERSION}
 ENV AR llvm-ar-${LLVM_VERSION}
 ENV RANLIB llvm-ranlib-${LLVM_VERSION}
 
-ENV CFLAGS --target=wasm32-wasi --sysroot=/wasi-sysroot
-ENV CXXFLAGS --target=wasm32-wasi --sysroot=/wasi-sysroot
-ENV LDFLAGS --target=wasm32-wasi --sysroot=/wasi-sysroot
+ENV CFLAGS --target=wasm64-wasi --sysroot=/wasi-sysroot
+ENV CXXFLAGS --target=wasm64-wasi --sysroot=/wasi-sysroot
+ENV LDFLAGS --target=wasm64-wasi --sysroot=/wasi-sysroot
