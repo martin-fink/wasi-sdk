@@ -17,7 +17,7 @@ RUN mv /wasi-sdk-* /wasi-sdk
 
 FROM ubuntu:22.04
 
-ENV LLVM_VERSION 16
+ENV LLVM_VERSION 17
 
 # Install build toolchain including clang, ld, make, autotools, ninja, and cmake
 RUN apt-get update && \
@@ -37,6 +37,7 @@ COPY --from=dist /wasi-sdk/share/wasi-sysroot/ /wasi-sysroot/
 COPY --from=dist /wasi-sysroot-clang_rt/lib/wasi /usr/lib/llvm-${LLVM_VERSION}/lib/clang/${LLVM_VERSION}/lib/wasi
 
 ADD docker/wasi-sdk.cmake /usr/share/cmake/wasi-sdk.cmake
+ADD docker/wasi-sdk-pthread.cmake /usr/share/cmake/wasi-sdk-pthread.cmake
 ENV CMAKE_TOOLCHAIN_FILE /usr/share/cmake/wasi-sdk.cmake
 ADD cmake/Platform/WASI.cmake /usr/share/cmake/Modules/Platform/WASI.cmake
 

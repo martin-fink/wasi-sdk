@@ -37,6 +37,11 @@ BASH=
 
 endif
 
+ifeq ($(shell uname),Darwin)
+override LLVM_CMAKE_FLAGS += -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
+		    -DCMAKE_OSX_DEPLOYMENT_TARGET=10.12
+endif
+
 # Only the major version is needed for Clang, see https://reviews.llvm.org/D125860.
 CLANG_VERSION=$(shell $(BASH) ./llvm_version_major.sh $(LLVM_PROJ_DIR))
 VERSION:=$(shell $(BASH) ./version.sh)
@@ -48,7 +53,7 @@ default: build
 check:
 	CC="clang --sysroot=$(BUILD_PREFIX)/share/wasi-sysroot" \
 	CXX="clang++ --sysroot=$(BUILD_PREFIX)/share/wasi-sysroot -fno-exceptions" \
-	PATH="$(PATH_PREFIX)/bin:$$PATH" tests/run.sh $(RUNTIME)
+	PATH="$(PATH_PREFIX)/bin:$$PATH" tests/run.sh "$(BUILD_PREFIX)" "$(RUNTIME)"
 
 clean:
 	rm -rf build $(DESTDIR)
@@ -62,9 +67,11 @@ build/llvm.BUILT:
 		-DLLVM_ENABLE_ZSTD=OFF \
 		-DLLVM_STATIC_LINK_CXX_STDLIB=ON \
 		-DLLVM_HAVE_LIBXAR=OFF \
-		-DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
-		-DCMAKE_OSX_DEPLOYMENT_TARGET=10.12 \
 		-DCMAKE_INSTALL_PREFIX=$(PREFIX) \
+		-DLLVM_INCLUDE_TESTS=OFF \
+		-DLLVM_INCLUDE_UTILS=OFF \
+		-DLLVM_INCLUDE_BENCHMARKS=OFF \
+		-DLLVM_INCLUDE_EXAMPLES=OFF \
 		-DLLVM_TARGETS_TO_BUILD=WebAssembly \
 		-DLLVM_DEFAULT_TARGET_TRIPLE=wasm64-wasi \
 		-DLLVM_ENABLE_PROJECTS="lld;clang;clang-tools-extra" \
@@ -212,9 +219,10 @@ build/libcxx.BUILT: build/llvm.BUILT build/compiler-rt.BUILT build/wasi-libc.BUI
 build/config.BUILT:
 	mkdir -p $(BUILD_PREFIX)/share/misc
 	cp src/config/config.sub src/config/config.guess $(BUILD_PREFIX)/share/misc
-	mkdir -p $(BUILD_PREFIX)/share/cmake
+	mkdir -p $(BUILD_PREFIX)/share/cmake/Platform
 	cp wasi-sdk.cmake $(BUILD_PREFIX)/share/cmake
 	cp wasi-sdk-pthread.cmake $(BUILD_PREFIX)/share/cmake
+	cp cmake/Platform/WASI.cmake $(BUILD_PREFIX)/share/cmake/Platform
 	touch build/config.BUILT
 
 build: build/llvm.BUILT build/wasi-libc.BUILT build/compiler-rt.BUILT build/libcxx.BUILT build/config.BUILT

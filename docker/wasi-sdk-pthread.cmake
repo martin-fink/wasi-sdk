@@ -8,8 +8,15 @@ list(APPEND CMAKE_MODULE_PATH /usr/share/cmake/Modules)
 
 set(CMAKE_SYSTEM_NAME WASI)
 set(CMAKE_SYSTEM_VERSION 1)
-set(CMAKE_SYSTEM_PROCESSOR wasm64)
-set(triple wasm64-wasi)
+set(CMAKE_SYSTEM_PROCESSOR wasm32)
+set(triple wasm32-wasi-threads)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+# wasi-threads requires --import-memory.
+# wasi requires --export-memory.
+# (--export-memory is implicit unless --import-memory is given)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--import-memory")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--export-memory")
 
 set(CMAKE_C_COMPILER /usr/bin/clang-$ENV{LLVM_VERSION})
 set(CMAKE_CXX_COMPILER /usr/bin/clang++-$ENV{LLVM_VERSION})
