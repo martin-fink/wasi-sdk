@@ -107,6 +107,7 @@ build/llvm.BUILT:
 		llvm-config
 	touch build/llvm.BUILT
 
+.PHONY: build/wasi-libc.BUILT
 build/wasi-libc.BUILT: build/llvm.BUILT
 	$(MAKE) -C $(ROOT_DIR)/src/wasi-libc \
 		CC=$(BUILD_PREFIX)/bin/clang \
