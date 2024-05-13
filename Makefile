@@ -4,6 +4,9 @@
 ROOT_DIR=${CURDIR}
 LLVM_PROJ_DIR?=$(ROOT_DIR)/src/llvm-project
 
+EXTRA_CFLAGS?=-mmem-safety -fsanitize=wasm-ptr-auth -g
+EXTRA_CXXFLAGS=-mmem-safety -fsanitize=wasm-ptr-auth -g
+
 # Windows needs munging
 ifeq ($(OS),Windows_NT)
 
